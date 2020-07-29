@@ -20,12 +20,9 @@ void adc_sample_entry(void *parameter)
         for (i = 0; i < ADC_SAMPLE_NUM; i++)
         {
             lpc824_get_adc_value(miniscope.adc.channel, &miniscope.adc.buff[i]);
-            if (miniscope.adc.interval_us > SCALE_TO_INTERVAL(100)) // mini scale no need to delay
-            {
-                rt_hw_us_delay(miniscope.adc.interval_us % RT_TICK_PER_SECOND + 1); // us delay
-            }
+            rt_hw_us_delay(miniscope.adc.interval_us - ADC_CONVERT_PERIOD_US); // us delay
         }
-        rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)miniscope.adc.buff, RT_WAITING_FOREVER);
+        rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[0], RT_WAITING_FOREVER);
 	}
 }
 

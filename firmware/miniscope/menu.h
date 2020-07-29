@@ -3,7 +3,7 @@
 
 #include <rtthread.h>
 
-#define TIME_SCALE_MENU_TEXT {"500ms", "200ms", "100ms", "50ms", "20ms", "10ms", "5ms", "2ms", "1ms", "500us", "200us", "100us"}
+#define TIME_SCALE_MENU_TEXT {"100ms", "50ms", "20ms", "10ms", "5ms", "2ms", "1ms", "500us", "200us", "100us"}
 #define TRIG_DIRE_MENU_TEXT {"R", "F"};
 
 enum MENU_TYPE_LIST 
@@ -17,9 +17,7 @@ enum MENU_TYPE_LIST
 
 enum MENU_TIME_SCALE_VALUE 
 { 
-    TIME_SCALE_500MS = 0, 
-    TIME_SCALE_200MS, 
-    TIME_SCALE_100MS, 
+    TIME_SCALE_100MS = 0, 
     TIME_SCALE_50MS, 
     TIME_SCALE_20MS, 
     TIME_SCALE_10MS, 

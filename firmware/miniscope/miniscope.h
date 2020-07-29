@@ -4,6 +4,8 @@
 #include <rtthread.h>
 #include "menu.h"
 
+#define ADC_CONVERT_PERIOD_US   1   /* 1M ADC Convert Rate */
+
 #define ADC_SAMPLE_NUM          100
 #define WAVE_DATA_NUM           100
 
