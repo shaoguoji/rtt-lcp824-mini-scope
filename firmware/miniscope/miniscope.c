@@ -11,6 +11,7 @@ struct Miniscope miniscope;
 
 char *time_scale_text[TIME_SCALE_MAX_NUM] = TIME_SCALE_MENU_TEXT;
 char *trig_dire_text[TRIG_DIRE_MAX_NUM] = TRIG_DIRE_MENU_TEXT;
+char *volt_scale_text[VOLT_SCALE_MAX_NUM] = VOLT_SCALE_MENU_TEXT;
 
 int miniscope_init(void)
 {
