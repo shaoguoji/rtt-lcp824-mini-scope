@@ -23,17 +23,18 @@ static void refresh_timeout(void *parameter)
 void dis_thread_entry(void *parameter)
 {
 	rt_uint16_t tempVal = 0;
-	rt_uint32_t adc_value = 0;
-	
+	rt_uint32_t *dis_buff = RT_NULL;
+	int i;
+
 	while (1)
 	{
-		if (rt_mb_recv(miniscope.adc.mb, &adc_value, RT_WAITING_FOREVER) == RT_EOK)
+		if (rt_mb_recv(miniscope.wave.mb, (rt_uint32_t *)&dis_buff, RT_WAITING_FOREVER) == RT_EOK)
 		{
-			tempVal = (uint16_t)(((rt_uint16_t *)adc_value)[0]&0x0000007f)+40;
-        	OLED_DrawPoint(127,((uint8_t)(tempVal*63/128)&0x3f),1);
-			OLED_Left_Shift_Pixel();
+			for (i = 0; i < ADC_SAMPLE_NUM; i++)
+			{
+				OLED_DrawPoint(i+26, dis_buff[i], 1);
+			}
 		}
-		rt_thread_mdelay(1);
 	}
 }
 

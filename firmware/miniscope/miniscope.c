@@ -25,7 +25,7 @@ int miniscope_init(void)
     miniscope.menu[MENU_TYPE_TRI_DIR].text = trig_dire_text;
 
     miniscope.menu[MENU_TYPE_VOLT_SCALE].type = MENU_TYPE_VOLT_SCALE;
-    miniscope.menu[MENU_TYPE_VOLT_SCALE].value = 3000; /* defalut 3V voltage scale*/
+    miniscope.menu[MENU_TYPE_VOLT_SCALE].value = VOLT_SCALE_Auto; /* defalut 3V voltage scale*/
     miniscope.menu[MENU_TYPE_VOLT_SCALE].text = RT_NULL;
 
     /* miniscope adc init */
@@ -40,6 +40,7 @@ int miniscope_init(void)
 
     /* miniscope wave init */
     miniscope.wave.data = rt_malloc(WAVE_DATA_NUM*sizeof(rt_uint32_t));
+    miniscope.wave.mb = rt_mb_create("wave_mb", 4, RT_IPC_FLAG_FIFO);
 
     miniscope.key_event = rt_event_create("key_event", RT_IPC_FLAG_FIFO);
 	if (miniscope.key_event == RT_NULL)

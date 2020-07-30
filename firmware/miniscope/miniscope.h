@@ -6,6 +6,10 @@
 
 #define ADC_CONVERT_PERIOD_US   1   /* 1M ADC Convert Rate */
 
+#define ADC_MAX_VOLT    3300
+#define ADC_MIN_VOLT    0
+
+
 #define ADC_SAMPLE_NUM          100
 #define WAVE_DATA_NUM           100
 
@@ -22,6 +26,7 @@ struct Adc_Info
 struct Wave_Info
 {
     rt_uint32_t *data;
+    rt_mailbox_t mb;
     rt_uint16_t vMax;       /* mv */
     rt_uint16_t vMin;
     rt_uint16_t rulerVMax;
