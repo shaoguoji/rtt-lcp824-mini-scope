@@ -39,6 +39,7 @@ struct Miniscope
     struct Wave_Info wave;
     struct Menu_Info menu[MENU_TYPE_MAX_NUM];
 
+    rt_uint16_t option_index;
     rt_uint16_t tri_pos;
     rt_bool_t trig_dire;
     rt_err_t trigger_state;

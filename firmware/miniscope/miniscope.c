@@ -42,6 +42,7 @@ int miniscope_init(void)
     miniscope.wave.data = rt_malloc(WAVE_DATA_NUM*sizeof(rt_uint32_t));
     miniscope.wave.mb = rt_mb_create("wave_mb", 4, RT_IPC_FLAG_FIFO);
 
+    miniscope.option_index = 0;
     miniscope.key_event = rt_event_create("key_event", RT_IPC_FLAG_FIFO);
 	if (miniscope.key_event == RT_NULL)
 	{
