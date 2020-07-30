@@ -127,13 +127,13 @@ int wavedata_init(void)
     rt_thread_t adc_thread = RT_NULL;
     rt_thread_t parse_thread = RT_NULL;
 
-    adc_thread = rt_thread_create("adc_thread", adc_sample_entry, RT_NULL, 512, 2, 30);
+    adc_thread = rt_thread_create("adc_thread", adc_sample_entry, RT_NULL, 256, 4, 30);
     if (adc_thread != RT_NULL)
     {
         rt_thread_startup(adc_thread);
     }
 
-    parse_thread = rt_thread_create("parse_thread", data_parse_entry, RT_NULL, 512, 3, 30);
+    parse_thread = rt_thread_create("parse_thread", data_parse_entry, RT_NULL, 256, 5, 30);
     if (parse_thread != RT_NULL)
     {
         rt_thread_startup(parse_thread);
