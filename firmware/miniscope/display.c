@@ -78,6 +78,10 @@ void PlotChart(void)
 	}
 
 	//绘制触发方式标志
+	if(miniscope.option_index == MENU_TYPE_TRI_DIR)
+	{
+		OLED_Reverse(1);
+	}
 	if (miniscope.menu[MENU_TYPE_TRI_DIR].index == TRIG_DIRE_RISING)
 	{
 		OLED_DrawChar(18, 56, 123); //123上箭头，上升沿触发
@@ -86,6 +90,7 @@ void PlotChart(void)
 	{
 		OLED_DrawChar(18, 56, 124); //124下箭头，下降沿触发
 	}
+	OLED_Reverse(0);
 	
 	//绘制波形电压范围
 	OLED_Set_Pos(26, 56);

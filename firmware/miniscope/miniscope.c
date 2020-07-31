@@ -20,9 +20,23 @@ static rt_uint32_t menu_volt_scale_value[VOLT_SCALE_MAX_NUM] = VOLT_SCALE_MENU_V
 int miniscope_init(void)
 {
     /* miniscope menu init */
-    struct Menu_Info time_scale = { MENU_TYPE_TIME_SCALE, TIME_SCALE_5MS, menu_time_scale_value, menu_time_scale_text};
-    struct Menu_Info trig_dire = { MENU_TYPE_TRI_DIR, TRIG_DIRE_RISING, menu_trig_dire_value, menu_trig_dire_text};
-    struct Menu_Info volt_scale = { MENU_TYPE_VOLT_SCALE, VOLT_SCALE_Auto, menu_volt_scale_value, menu_volt_scale_text};
+    struct Menu_Info time_scale = { MENU_TYPE_TIME_SCALE, 
+                                    TIME_SCALE_5MS, 
+                                    menu_time_scale_value, 
+                                    TIME_SCALE_MAX_NUM,
+                                    menu_time_scale_text };
+
+    struct Menu_Info trig_dire = {  MENU_TYPE_TRI_DIR, 
+                                    TRIG_DIRE_RISING, 
+                                    menu_trig_dire_value, 
+                                    TRIG_DIRE_MAX_NUM,
+                                    menu_trig_dire_text };
+
+    struct Menu_Info volt_scale = { MENU_TYPE_VOLT_SCALE, 
+                                    VOLT_SCALE_Auto, 
+                                    menu_volt_scale_value,
+                                    VOLT_SCALE_MAX_NUM,
+                                    menu_volt_scale_text };
 
     miniscope.menu[MENU_TYPE_TIME_SCALE] = time_scale;
     miniscope.menu[MENU_TYPE_TRI_DIR] = trig_dire;

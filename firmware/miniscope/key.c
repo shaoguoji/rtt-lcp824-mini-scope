@@ -46,6 +46,7 @@ static void key_timeout(void *parameter)
 void menu_thread_entry(void *parameter)
 {
 	rt_uint32_t e;
+    int option_count = 0;
 
 	while (1)
 	{
@@ -55,27 +56,43 @@ void menu_thread_entry(void *parameter)
 		{
 			if ((e & EVENT_KEY_LEFT_PRESS) != 0) 
             { 
-                rt_kprintf("key LIFT press!\n"); 
+                // rt_kprintf("key LIFT press!\n"); 
+                miniscope.option_index = (miniscope.option_index + 1) % MENU_TYPE_MAX_NUM;
             }
 
 			if ((e & EVENT_KEY_RIGHT_PRESS) != 0) 
             { 
-                rt_kprintf("key RIGHT press!\n"); 
+                // rt_kprintf("key RIGHT press!\n"); 
+
+                option_count = miniscope.menu[miniscope.option_index].count;
+
+                if (miniscope.menu[miniscope.option_index].index > 0)
+                {
+                    miniscope.menu[miniscope.option_index].index--;
+                }
+                else
+                {
+                    miniscope.menu[miniscope.option_index].index = option_count-1;
+                }
             }
 
 			if ((e & EVENT_KEY_UP_PRESS) != 0) 
             { 
-                rt_kprintf("key UP press!\n"); 
+                // rt_kprintf("key UP press!\n"); 
+
+                option_count = miniscope.menu[miniscope.option_index].count;
+                miniscope.menu[miniscope.option_index].index++;
+                miniscope.menu[miniscope.option_index].index %= option_count;
             }
 
 			if ((e & EVENT_KEY_DOWN_PRESS) != 0) 
             { 
-                rt_kprintf("key DOWN press!\n"); 
+                // rt_kprintf("key DOWN press!\n"); 
             }
 
 			if ((e & EVENT_KEY_OK_PRESS) != 0) 
             { 
-                rt_kprintf("key OK press!\n"); 
+                // rt_kprintf("key OK press!\n"); 
             }
 		}
 	}

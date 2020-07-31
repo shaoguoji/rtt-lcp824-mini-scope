@@ -26,15 +26,19 @@ rt_uint16_t remap(rt_uint16_t val, rt_uint16_t rangeMax, rt_uint16_t rangeMin, r
 void adc_sample_entry(void *parameter)
 {
 	rt_uint32_t v = 0;
-	int i;
+	int i, t;
 
 	while (1)
 	{
+        t = miniscope.menu[MENU_TYPE_TIME_SCALE].value[miniscope.menu[MENU_TYPE_TIME_SCALE].index];
+        miniscope.adc.interval_us = SCALE_TO_INTERVAL(t);
+
         for (i = 0; i < ADC_SAMPLE_NUM; i++)
         {
             lpc824_get_adc_value(miniscope.adc.channel, &miniscope.adc.buff[i]);
             rt_hw_us_delay(miniscope.adc.interval_us - ADC_CONVERT_PERIOD_US); // us delay
         }
+        
         rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[0], RT_WAITING_FOREVER);
 	}
 }
@@ -45,7 +49,7 @@ void data_parse_entry(void *parameter)
     rt_uint16_t tmp = 0;
     rt_uint16_t dacMax = 0, dacMin = 4095;
     rt_uint16_t plotADCMax = 0, plotADCMin = 0;
-	int i;
+	int i, option_index;
 	
     while (1)
 	{
@@ -85,28 +89,8 @@ void data_parse_entry(void *parameter)
             {
                 // 根据手动量程计算垂直标尺最大值mV
                 miniscope.wave.rulerVMin = 0;
-                switch(miniscope.menu[MENU_TYPE_VOLT_SCALE].index)
-                {
-                    case VOLT_SCALE_200MV:
-                        miniscope.wave.rulerVMax = 200;
-                        break;
-                    case VOLT_SCALE_500MV:
-                        miniscope.wave.rulerVMax = 500;
-                        break;
-                    case VOLT_SCALE_1V:
-                        miniscope.wave.rulerVMax = 1000;
-                        break;
-                    case VOLT_SCALE_2V:
-                        miniscope.wave.rulerVMax = 2000;
-                        break;
-                    case VOLT_SCALE_3V:
-                        miniscope.wave.rulerVMax = 3000;
-                    case VOLT_SCALE_3V3:
-                        miniscope.wave.rulerVMax = 3300;
-                        break;
-                    default:
-                        break;			
-                }
+                option_index = miniscope.menu[MENU_TYPE_VOLT_SCALE].index;
+                miniscope.wave.rulerVMax = miniscope.menu[MENU_TYPE_VOLT_SCALE].value[option_index];
             }
             //用垂直标尺mV范围反求出ADC值的范围作为图表的显示上下限
             plotADCMax = (rt_uint32_t)miniscope.wave.rulerVMax * 4096 / 3300;
