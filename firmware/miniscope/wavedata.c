@@ -101,6 +101,8 @@ void data_parse_entry(void *parameter)
                         break;
                     case VOLT_SCALE_3V:
                         miniscope.wave.rulerVMax = 3000;
+                    case VOLT_SCALE_3V3:
+                        miniscope.wave.rulerVMax = 3300;
                         break;
                     default:
                         break;			
@@ -127,13 +129,13 @@ int wavedata_init(void)
     rt_thread_t adc_thread = RT_NULL;
     rt_thread_t parse_thread = RT_NULL;
 
-    adc_thread = rt_thread_create("adc_thread", adc_sample_entry, RT_NULL, 256, 4, 30);
+    adc_thread = rt_thread_create("adc_thread", adc_sample_entry, RT_NULL, ADC_THREAD_STACK_SIZE, ADC_THREAD_PRIO, 30);
     if (adc_thread != RT_NULL)
     {
         rt_thread_startup(adc_thread);
     }
 
-    parse_thread = rt_thread_create("parse_thread", data_parse_entry, RT_NULL, 256, 5, 30);
+    parse_thread = rt_thread_create("parse_thread", data_parse_entry, RT_NULL, PARSE_THREAD_STACK_SIZE, PARSE_THREAD_PRIO, 30);
     if (parse_thread != RT_NULL)
     {
         rt_thread_startup(parse_thread);

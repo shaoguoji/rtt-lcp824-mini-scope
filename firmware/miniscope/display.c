@@ -12,7 +12,6 @@
 #define CHART_V_MAX 52
 #define CHART_V_MIN 8
 
-#define DIS_THREAD_STACK_SIZE   256
 static struct rt_thread dis_thread;
 static rt_uint8_t dis_thread_stack[DIS_THREAD_STACK_SIZE];
 static struct rt_timer refresh_timer;
@@ -208,7 +207,7 @@ void dis_thread_entry(void *parameter)
 int display_init(void)
 {
 	rt_timer_init(&refresh_timer, "timer1", refresh_timeout, RT_NULL, rt_tick_from_millisecond(40), RT_TIMER_FLAG_PERIODIC);
-	rt_thread_init(&dis_thread, "dis_thread", dis_thread_entry, RT_NULL, dis_thread_stack, DIS_THREAD_STACK_SIZE, 3, 10);
+	rt_thread_init(&dis_thread, "dis_thread", dis_thread_entry, RT_NULL, dis_thread_stack, DIS_THREAD_STACK_SIZE, DIS_THREAD_PRIO, 10);
 
     rt_timer_start(&refresh_timer);
     rt_thread_startup(&dis_thread);

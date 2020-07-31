@@ -14,6 +14,17 @@
 
 #define SCALE_TO_INTERVAL(s)    ((s)*4/ADC_SAMPLE_NUM)
 
+/* thread info */
+#define ADC_THREAD_PRIO             4
+#define ADC_THREAD_STACK_SIZE       256
+#define PARSE_THREAD_PRIO           5
+#define PARSE_THREAD_STACK_SIZE     256
+#define DIS_THREAD_PRIO             3
+#define DIS_THREAD_STACK_SIZE       256
+#define MENU_THREAD_PRIO            2
+#define MENU_THREAD_STACK_SIZE      256
+
+
 struct Adc_Info
 {
     rt_uint32_t channel;
