@@ -79,7 +79,7 @@ void PlotChart(void)
 	}
 
 	//绘制触发方式标志
-	if (miniscope.menu[MENU_TYPE_TRI_DIR].value = TRIG_DIRE_RISING)
+	if (miniscope.menu[MENU_TYPE_TRI_DIR].index == TRIG_DIRE_RISING)
 	{
 		OLED_DrawChar(18, 56, 123); //123上箭头，上升沿触发
 	}
@@ -114,7 +114,7 @@ void PlotChart(void)
 	// 	OLED_DrawString(" ");
 	// 	OLED_Overlap(0);	
 	// }
-	if(miniscope.menu[MENU_TYPE_VOLT_SCALE].value == VOLT_SCALE_Auto)
+	if(miniscope.menu[MENU_TYPE_VOLT_SCALE].index == VOLT_SCALE_Auto)
 	{
 		OLED_Set_Pos(8, 56);
 		OLED_DrawString("A");
@@ -133,7 +133,7 @@ void PlotChart(void)
 		OLED_Reverse(1);
 	}
 	OLED_Set_Pos(97, 56);
-	OLED_DrawString(miniscope.menu[MENU_TYPE_TIME_SCALE].text[TIME_SCALE_5MS]);
+	OLED_DrawString(miniscope.menu[MENU_TYPE_TIME_SCALE].text[miniscope.menu[MENU_TYPE_TIME_SCALE].index]);
 	OLED_Reverse(0);
 	
 	//绘制纵轴电压区间

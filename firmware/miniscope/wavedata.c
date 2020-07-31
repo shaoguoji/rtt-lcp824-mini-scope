@@ -64,7 +64,7 @@ void data_parse_entry(void *parameter)
             miniscope.wave.vMax = (rt_uint32_t)dacMax * 3300 / 4096;
             miniscope.wave.vMin = (rt_uint32_t)dacMin * 3300 / 4096;
 
-            if(miniscope.menu[MENU_TYPE_VOLT_SCALE].value == VOLT_SCALE_Auto)
+            if(miniscope.menu[MENU_TYPE_VOLT_SCALE].index == VOLT_SCALE_Auto)
             {
                 //根据采样点的最大最小值，按500mV扩大范围取整，作为垂直标尺范围mV
                 if (miniscope.wave.vMax / 100 % 10 >= 5)
@@ -85,7 +85,7 @@ void data_parse_entry(void *parameter)
             {
                 // 根据手动量程计算垂直标尺最大值mV
                 miniscope.wave.rulerVMin = 0;
-                switch(miniscope.menu[MENU_TYPE_VOLT_SCALE].value)
+                switch(miniscope.menu[MENU_TYPE_VOLT_SCALE].index)
                 {
                     case VOLT_SCALE_200MV:
                         miniscope.wave.rulerVMax = 200;

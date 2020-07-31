@@ -9,7 +9,6 @@
 #define ADC_MAX_VOLT    3300
 #define ADC_MIN_VOLT    0
 
-
 #define ADC_SAMPLE_NUM          100
 #define WAVE_DATA_NUM           100
 
