@@ -183,7 +183,7 @@ void dis_thread_entry(void *parameter)
 			PlotChart();
 			for (i = 0; i < ADC_SAMPLE_NUM-1; i++)
 			{
-				OLED_DrawLine(i+26, dis_buff[i], i+26+1, dis_buff[i+1]);
+				OLED_DrawLine(i+26, dis_buff[i+(miniscope.tri_pos-50)], i+26+1, dis_buff[i+1+(miniscope.tri_pos-50)]);
 			}
 			rt_timer_start(&refresh_timer);
 		}

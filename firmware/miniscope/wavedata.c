@@ -50,7 +50,7 @@ void data_parse_entry(void *parameter)
 {
     rt_uint16_t *adc_buff = RT_NULL;
     rt_uint16_t tmp = 0;
-    rt_uint16_t dacMax = 0, dacMin = 4095;
+    rt_uint16_t dacMax = 0, dacMin = 4095, dacMid = 0;
     rt_uint16_t plotADCMax = 0, plotADCMin = 0;
 	int i, option_index;
 	
@@ -99,6 +99,29 @@ void data_parse_entry(void *parameter)
             plotADCMax = (rt_uint32_t)miniscope.wave.rulerVMax * 4096 / 3300;
             plotADCMin = (rt_uint32_t)miniscope.wave.rulerVMin * 4096 / 3300;
 
+            //查询触发位置
+            dacMid = (dacMax + dacMin) >> 1;
+            miniscope.tri_pos = ADC_SAMPLE_NUM / 2;
+
+            for (i = 50; i <= ADC_SAMPLE_NUM-50; i++)
+            {
+                if (miniscope.menu[MENU_TYPE_TRI_DIR].index == TRIG_DIRE_RISING) //上升触发
+                {
+                    if (adc_buff[i] <= dacMid && adc_buff[i+1] >= dacMid)
+                    {
+                        miniscope.tri_pos = i;
+                        break;
+                    }
+                }
+                else //下降触发
+                {
+                    if (adc_buff[i] >= dacMid && adc_buff[i+1] <= dacMid)
+                    {
+                        miniscope.tri_pos = i;
+                        break;
+                    }
+                }
+            }
 
             //重新映射采样点ADC值至图表的垂直范围
             for (i = 0; i < ADC_SAMPLE_NUM; i++)
