@@ -14,7 +14,7 @@
 
 static struct rt_thread dis_thread;
 static rt_uint8_t dis_thread_stack[DIS_THREAD_STACK_SIZE];
-static struct rt_timer refresh_timer;
+struct rt_timer refresh_timer;
 
 extern struct Miniscope miniscope;
 
@@ -205,13 +205,14 @@ void dis_thread_entry(void *parameter)
 			{
 				OLED_DrawLine(i+26, dis_buff[i], i+26+1, dis_buff[i+1]);
 			}
+			rt_timer_start(&refresh_timer);
 		}
 	}
 }
 
 int display_init(void)
 {
-	rt_timer_init(&refresh_timer, "timer1", refresh_timeout, RT_NULL, rt_tick_from_millisecond(40), RT_TIMER_FLAG_PERIODIC);
+	rt_timer_init(&refresh_timer, "timer1", refresh_timeout, RT_NULL, 1, RT_TIMER_FLAG_ONE_SHOT);
 	rt_thread_init(&dis_thread, "dis_thread", dis_thread_entry, RT_NULL, dis_thread_stack, DIS_THREAD_STACK_SIZE, DIS_THREAD_PRIO, 10);
 
     rt_timer_start(&refresh_timer);
