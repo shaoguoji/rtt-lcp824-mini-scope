@@ -9,5 +9,7 @@
 #define EVENT_FLAG_THRESHOLD (1 << 1)
 
 void lpc824_get_adc_value(rt_uint32_t channel, rt_uint16_t *value);
+void Board_ADC_Start(void);
+void Board_ADC_Stop(void);
 
 #endif /* #ifndef __DRV_ADC_H__ */

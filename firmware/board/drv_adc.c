@@ -183,3 +183,14 @@ void lpc824_get_adc_value(rt_uint32_t channel, rt_uint16_t *value)
 	}
 }
 
+void Board_ADC_Stop(void)
+{
+    Chip_ADC_DisableSequencer(LPC_ADC, ADC_SEQA_IDX);
+}
+
+void Board_ADC_Start(void)
+{
+    Chip_ADC_EnableSequencer(LPC_ADC, ADC_SEQA_IDX);
+    Chip_ADC_StartSequencer(LPC_ADC, ADC_SEQA_IDX);
+}
+
