@@ -5,6 +5,7 @@
 
 #include "miniscope.h"
 #include "oled.h"
+#include "drv_adc.h"
 
 /* Region for waveform on display*/
 #define CHART_H_MAX 126 
@@ -110,28 +111,13 @@ void PlotChart(void)
 	// // 	OLED_DrawString("Fail");
 	// // }
 
-	//绘制自动量程标志
-	// if(HoldDisplay)
-	// {
-	// 	OLED_Overlap(1);
-	// 	OLED_Set_Pos(8, 56);
-	// 	OLED_DrawString(" ");
-	// 	OLED_Overlap(0);	
-	// }
+
 	if(miniscope.menu[MENU_TYPE_VOLT_SCALE].index == VOLT_SCALE_Auto)
 	{
 		OLED_Set_Pos(8, 56);
 		OLED_DrawString("A");
 	}
 
-	//绘制横轴时间区间
-	// if(HoldDisplay)
-	// {
-	// 	OLED_Overlap(1);
-	// 	OLED_Set_Pos(97, 56);
-	// 	OLED_DrawString("     ");
-	// 	OLED_Overlap(0);	
-	// }
 	if(miniscope.option_index == MENU_TYPE_TIME_SCALE)
 	{
 		OLED_Reverse(1);
@@ -139,15 +125,7 @@ void PlotChart(void)
 	OLED_Set_Pos(97, 56);
 	OLED_DrawString(miniscope.menu[MENU_TYPE_TIME_SCALE].text[miniscope.menu[MENU_TYPE_TIME_SCALE].index]);
 	OLED_Reverse(0);
-	
-	//绘制纵轴电压区间
-	// if(HoldDisplay)
-	// {
-	// 	OLED_Overlap(1);
-	// 	OLED_Set_Pos(0, 0);
-	// 	OLED_DrawString("    ");
-	// 	OLED_Overlap(0);
-	// }		
+		
 	if(miniscope.option_index == MENU_TYPE_VOLT_SCALE)
 	{
 		OLED_Reverse(1);
@@ -161,6 +139,21 @@ void PlotChart(void)
 	OLED_Set_Pos(0, 45);
 	OLED_DrawString(s);
 		
+	//绘制通道数
+	OLED_Set_Pos(0, 16);
+	if (miniscope.adc.channel == BOARD_ADC_CH1)
+    {
+        OLED_DrawString("CH-1");
+    }
+    else if (miniscope.adc.channel == BOARD_ADC_CH2)
+    {
+        OLED_DrawString("CH-2");
+    }
+	else if (miniscope.adc.channel == BOARD_ADC_CH3)
+	{
+		OLED_DrawString("CH-3");
+	}
+
     //绘制等待标志
     // if (WaitADC)
     // {
@@ -173,19 +166,6 @@ void PlotChart(void)
     //     OLED_Set_Pos(0, 8);
     //     OLED_DrawString("    ");
     //     OLED_Overlap(1); //恢复绘图模式为叠加
-    // }
-    // //绘制Hold标志
-    // if (HoldDisplay)
-    // {
-    //     OLED_Set_Pos(0, 56);
-    //     OLED_DrawString("H");
-    // }
-    // else
-    // {
-        OLED_Overlap(0); //设置绘图模式为覆盖
-        OLED_Set_Pos(0, 56);
-        OLED_DrawString(" ");
-        OLED_Overlap(1); //恢复绘图模式为叠加
     // }
 }
 
