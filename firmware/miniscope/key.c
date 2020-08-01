@@ -1,10 +1,13 @@
 #include <rtthread.h>
 
+#include "drv_adc.h"
+
 #include "key.h"
 #include "menu.h"
 #include "miniscope.h"
 
 extern struct Miniscope miniscope;
+extern rt_thread_t adc_thread;
 
 static void key_timeout(void *parameter)
 {
@@ -47,6 +50,7 @@ void menu_thread_entry(void *parameter)
 {
 	rt_uint32_t e;
     int option_count = 0;
+    static int onoff_toggle = 0;
 
 	while (1)
 	{
@@ -63,7 +67,6 @@ void menu_thread_entry(void *parameter)
 			if ((e & EVENT_KEY_RIGHT_PRESS) != 0) 
             { 
                 // rt_kprintf("key RIGHT press!\n"); 
-
                 option_count = miniscope.menu[miniscope.option_index].count;
 
                 if (miniscope.menu[miniscope.option_index].index > 0)
@@ -79,7 +82,6 @@ void menu_thread_entry(void *parameter)
 			if ((e & EVENT_KEY_UP_PRESS) != 0) 
             { 
                 // rt_kprintf("key UP press!\n"); 
-
                 option_count = miniscope.menu[miniscope.option_index].count;
                 miniscope.menu[miniscope.option_index].index++;
                 miniscope.menu[miniscope.option_index].index %= option_count;
@@ -88,11 +90,25 @@ void menu_thread_entry(void *parameter)
 			if ((e & EVENT_KEY_DOWN_PRESS) != 0) 
             { 
                 // rt_kprintf("key DOWN press!\n"); 
+                if (miniscope.adc.channel == BOARD_ADC_CH3)
+                    miniscope.adc.channel = BOARD_ADC_CH1;
+                else
+                    miniscope.adc.channel = BOARD_ADC_CH3;
             }
 
 			if ((e & EVENT_KEY_OK_PRESS) != 0) 
             { 
                 // rt_kprintf("key OK press!\n"); 
+                if (++onoff_toggle % 2 == 0)
+                {
+                    rt_thread_resume(adc_thread);
+                    Board_ADC_Start();
+                }
+                else
+                {
+                    rt_thread_suspend(adc_thread);
+                    Board_ADC_Stop();
+                }
             }
 		}
 	}

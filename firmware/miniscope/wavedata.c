@@ -9,6 +9,7 @@
 #include "menu.h"
 
 extern struct Miniscope miniscope;
+rt_thread_t adc_thread = RT_NULL;
 
 /* 将采样值的映射到屏幕的显示范围，并反转
    Remap sampling data to display range and inverse */
@@ -33,12 +34,14 @@ void adc_sample_entry(void *parameter)
         t = miniscope.menu[MENU_TYPE_TIME_SCALE].value[miniscope.menu[MENU_TYPE_TIME_SCALE].index];
         miniscope.adc.interval_us = SCALE_TO_INTERVAL(t);
 
+        // rt_enter_critical();
         for (i = 0; i < ADC_SAMPLE_NUM; i++)
         {
             lpc824_get_adc_value(miniscope.adc.channel, &miniscope.adc.buff[i]);
             rt_hw_us_delay(miniscope.adc.interval_us - ADC_CONVERT_PERIOD_US); // us delay
         }
-        
+        // rt_exit_critical();
+
         rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[0], RT_WAITING_FOREVER);
 	}
 }
@@ -110,7 +113,6 @@ void data_parse_entry(void *parameter)
 
 int wavedata_init(void)
 {
-    rt_thread_t adc_thread = RT_NULL;
     rt_thread_t parse_thread = RT_NULL;
 
     adc_thread = rt_thread_create("adc_thread", adc_sample_entry, RT_NULL, ADC_THREAD_STACK_SIZE, ADC_THREAD_PRIO, 30);
