@@ -4,10 +4,26 @@
 #include <rtthread.h>
 #include "menu.h"
 
+#define ADC_CONVERT_PERIOD_US   1   /* 1M ADC Convert Rate */
+
+#define ADC_MAX_VOLT    3300
+#define ADC_MIN_VOLT    0
+
 #define ADC_SAMPLE_NUM          100
 #define WAVE_DATA_NUM           100
 
 #define SCALE_TO_INTERVAL(s)    ((s)*4/ADC_SAMPLE_NUM)
+
+/* thread info */
+#define ADC_THREAD_PRIO             4
+#define ADC_THREAD_STACK_SIZE       256
+#define PARSE_THREAD_PRIO           5
+#define PARSE_THREAD_STACK_SIZE     256
+#define DIS_THREAD_PRIO             3
+#define DIS_THREAD_STACK_SIZE       256
+#define MENU_THREAD_PRIO            2
+#define MENU_THREAD_STACK_SIZE      256
+
 
 struct Adc_Info
 {
@@ -20,6 +36,7 @@ struct Adc_Info
 struct Wave_Info
 {
     rt_uint32_t *data;
+    rt_mailbox_t mb;
     rt_uint16_t vMax;       /* mv */
     rt_uint16_t vMin;
     rt_uint16_t rulerVMax;
@@ -32,6 +49,7 @@ struct Miniscope
     struct Wave_Info wave;
     struct Menu_Info menu[MENU_TYPE_MAX_NUM];
 
+    rt_uint16_t option_index;
     rt_uint16_t tri_pos;
     rt_bool_t trig_dire;
     rt_err_t trigger_state;

@@ -567,6 +567,11 @@
               <FileType>1</FileType>
               <FilePath>.\miniscope\wavedata.c</FilePath>
             </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\miniscope\key.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -3,8 +3,12 @@
 
 #include <rtthread.h>
 
-#define TIME_SCALE_MENU_TEXT {"500ms", "200ms", "100ms", "50ms", "20ms", "10ms", "5ms", "2ms", "1ms", "500us", "200us", "100us"}
-#define TRIG_DIRE_MENU_TEXT {"R", "F"};
+#define TIME_SCALE_MENU_TEXT { "20ms", "10ms", "5ms", "2ms", "1ms", "500us", "200us", "100us" }
+#define TIME_SCALE_MENU_VALUE { 20000, 10000, 5000, 2000, 1000, 500, 200, 100 }
+#define TRIG_DIRE_MENU_TEXT  {"R", "F"};
+#define TRIG_DIRE_MENU_VALUE { 1, 0 }
+#define VOLT_SCALE_MENU_TEXT {"Auto", "200mV", "500mV", "1V", "2V", "3V", "3.3V"}
+#define VOLT_SCALE_MENU_VALUE { 0, 200, 500, 1000, 2000, 3000, 3300 }
 
 enum MENU_TYPE_LIST 
 { 
@@ -17,11 +21,7 @@ enum MENU_TYPE_LIST
 
 enum MENU_TIME_SCALE_VALUE 
 { 
-    TIME_SCALE_500MS = 0, 
-    TIME_SCALE_200MS, 
-    TIME_SCALE_100MS, 
-    TIME_SCALE_50MS, 
-    TIME_SCALE_20MS, 
+    TIME_SCALE_20MS = 0, 
     TIME_SCALE_10MS, 
     TIME_SCALE_5MS, 
     TIME_SCALE_2MS, 
@@ -31,6 +31,19 @@ enum MENU_TIME_SCALE_VALUE
     TIME_SCALE_100US, 
     /* end of enum */
     TIME_SCALE_MAX_NUM
+};
+
+enum MENU_VOLT_SCALE_VALUE 
+{ 
+    VOLT_SCALE_Auto = 0, 
+    VOLT_SCALE_200MV, 
+    VOLT_SCALE_500MV, 
+    VOLT_SCALE_1V, 
+    VOLT_SCALE_2V, 
+    VOLT_SCALE_3V, 
+    VOLT_SCALE_3V3, 
+    /* end of enum */
+    VOLT_SCALE_MAX_NUM
 };
 
 enum MENU_TRIG_DIRE_VALUE 
@@ -44,7 +57,9 @@ enum MENU_TRIG_DIRE_VALUE
 struct Menu_Info 
 {
     enum MENU_TYPE_LIST type;
-    rt_uint32_t value;
+    rt_uint32_t index;
+    rt_uint32_t *value;
+    rt_uint32_t count;
     char **text;
 };
 
