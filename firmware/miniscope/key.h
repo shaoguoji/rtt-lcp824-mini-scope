@@ -16,7 +16,7 @@
 #define PIN_KEY_OK		11
 
 /* key check time(unit:10ms) */
-#define KEY_SHAKE_TIME			5
+#define KEY_SHAKE_TIME			3
 #define KEY_hold_time_MAX		50
 // #define KEY_LONG_hold_time_MIN	100
 
