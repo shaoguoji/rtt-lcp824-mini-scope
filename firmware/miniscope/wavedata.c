@@ -42,7 +42,7 @@ void adc_sample_entry(void *parameter)
         }
         // rt_exit_critical();
 
-        rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[0], RT_WAITING_FOREVER);
+        rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[1], RT_WAITING_FOREVER);
 	}
 }
 

@@ -9,8 +9,8 @@
 #define ADC_MAX_VOLT    3300
 #define ADC_MIN_VOLT    0
 
-#define ADC_SAMPLE_NUM          100
-#define WAVE_DATA_NUM           100
+#define ADC_SAMPLE_NUM          210
+#define WAVE_DATA_NUM           210
 
 #define SCALE_TO_INTERVAL(s)    ((s)*4/ADC_SAMPLE_NUM)
 
@@ -24,7 +24,6 @@
 #define MENU_THREAD_PRIO            2
 #define MENU_THREAD_STACK_SIZE      256
 
-
 struct Adc_Info
 {
     rt_uint32_t channel;
@@ -35,7 +34,7 @@ struct Adc_Info
 
 struct Wave_Info
 {
-    rt_uint32_t *data;
+    rt_uint16_t *data;
     rt_mailbox_t mb;
     rt_uint16_t vMax;       /* mv */
     rt_uint16_t vMin;

@@ -44,7 +44,7 @@ int miniscope_init(void)
 
     /* miniscope adc init */
     miniscope.adc.channel = BOARD_ADC_CH3;
-    miniscope.adc.buff = rt_malloc(ADC_SAMPLE_NUM*sizeof(rt_uint32_t));
+    miniscope.adc.buff = rt_malloc(ADC_SAMPLE_NUM*sizeof(rt_uint16_t));
     miniscope.adc.mb = rt_mb_create("adc_mb", 4, RT_IPC_FLAG_FIFO);
 	if (miniscope.adc.mb == RT_NULL)
 	{
@@ -53,7 +53,7 @@ int miniscope_init(void)
     miniscope.adc.interval_us = SCALE_TO_INTERVAL(miniscope.menu[MENU_TYPE_TIME_SCALE].value[miniscope.menu[MENU_TYPE_TIME_SCALE].index]);
 
     /* miniscope wave init */
-    miniscope.wave.data = rt_malloc(WAVE_DATA_NUM*sizeof(rt_uint32_t));
+    miniscope.wave.data = rt_malloc(WAVE_DATA_NUM*sizeof(rt_uint16_t));
     miniscope.wave.mb = rt_mb_create("wave_mb", 4, RT_IPC_FLAG_FIFO);
 
     miniscope.option_index = 0;

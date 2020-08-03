@@ -173,7 +173,7 @@ void PlotChart(void)
 void dis_thread_entry(void *parameter)
 {
 	rt_uint16_t tempVal = 0;
-	rt_uint32_t *dis_buff = RT_NULL;
+	rt_uint16_t *dis_buff = RT_NULL;
 	int i;
 
 	while (1)
@@ -181,7 +181,7 @@ void dis_thread_entry(void *parameter)
 		if (rt_mb_recv(miniscope.wave.mb, (rt_uint32_t *)&dis_buff, RT_WAITING_FOREVER) == RT_EOK)
 		{
 			PlotChart();
-			for (i = 0; i < ADC_SAMPLE_NUM-1; i++)
+			for (i = 0; i < 100; i++)
 			{
 				OLED_DrawLine(i+26, dis_buff[i+(miniscope.tri_pos-50)], i+26+1, dis_buff[i+1+(miniscope.tri_pos-50)]);
 			}
