@@ -24,6 +24,9 @@
 #define MENU_THREAD_PRIO            2
 #define MENU_THREAD_STACK_SIZE      256
 
+#define LED_ON()    Chip_GPIO_PinSetState(LPC_GPIO_PORT, 0, 28, false)
+#define LED_OFF()   Chip_GPIO_PinSetState(LPC_GPIO_PORT, 0, 28, true)
+
 struct Adc_Info
 {
     rt_uint32_t channel;

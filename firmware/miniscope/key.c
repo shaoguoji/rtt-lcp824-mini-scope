@@ -103,11 +103,13 @@ void menu_thread_entry(void *parameter)
                 {
                     rt_thread_resume(adc_thread);
                     Board_ADC_Start();
+                    LED_ON();
                 }
                 else
                 {
                     rt_thread_suspend(adc_thread);
                     Board_ADC_Stop();
+                    LED_OFF();
                 }
             }
 		}

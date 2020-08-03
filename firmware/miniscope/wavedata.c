@@ -34,13 +34,15 @@ void adc_sample_entry(void *parameter)
         t = miniscope.menu[MENU_TYPE_TIME_SCALE].value[miniscope.menu[MENU_TYPE_TIME_SCALE].index];
         miniscope.adc.interval_us = SCALE_TO_INTERVAL(t);
 
-        // rt_enter_critical();
+        LED_ON();
+        rt_enter_critical();
         for (i = 0; i < ADC_SAMPLE_NUM; i++)
         {
             lpc824_get_adc_value(miniscope.adc.channel, &miniscope.adc.buff[i]);
             rt_hw_us_delay(miniscope.adc.interval_us - ADC_CONVERT_PERIOD_US); // us delay
         }
-        // rt_exit_critical();
+        rt_exit_critical();
+        LED_OFF();
 
         rt_mb_send_wait(miniscope.adc.mb, (rt_uint32_t)&miniscope.adc.buff[1], RT_WAITING_FOREVER);
 	}
